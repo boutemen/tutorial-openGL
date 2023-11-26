@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+    <title>Tutorial OpenGL</title>
+</head>
+<body>
+<header>
+    <h1>Tutorial OpenGL</h1>
+</header>
+<aside class="sidebar">
+    <ul class="nav-menu">
+        <li><a href="#prerequisite">Prerequisite</a></li>
+        <li><a href="#dev-env">Setting up your development environment</a></li>
+        <li><a href="#Introduction">Introduction</a></li>
+        <li><a href="#step1">Writing OpenGL Window Code</a></li>
+        <li><a href="#step1.1">Basic function</a></li>
+        <li><a href="#step1.2">Main code</a></li>
+        <li><a href="#step2">Compiling and Running the Code</a></li>
+        <li><a href="#step3">Creating a triangle</a></li>
+        <li><a href="#step3.1">Triangle coordinate</a></li>
+        <li><a href="#step3.2">Drawing a triangle</a></li>
+        <li><a href="#3.3.1">Shaders compilation</a></li>
+        <li><a href="#3.3.2">Shaders Vertex</a></li>
+        <li><a href="#3.3.3">Shaders fragment</a></li>
+        <li><a href="#3.3.4">Putting all together</a></li>
+        <li><a href="#acknowledgements">Acknowledgements</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</aside>
+<main>
+    <section class="tutorial-step" id="prerequisite">
+        <div class="step-content">
+            <h2>Prerequisite</h2>
+            <p>C/C++ Development Environment: You
+                should have a C/C++ development environment
+                set up on your system. This includes a C/C++
+                compiler (e.g., GCC or Visual Studio), and a code
+                editor or Integrated Development Environment (IDE).
+                </p>
+            <p>
+                OpenGL Library: You need to have the OpenGL library installed
+                on your system. OpenGL is available on most platforms, but the
+                installation process can vary..</p>
+            <p><img src="./time.png" alt="Time icon"> Estimated Time: 15 to 45 mins</p>
+            <p><img src="./diff-fill.png" alt="Difficulty icon"> <img src="./diff-fill.png" alt="Difficulty icon">
+                <img src="./diff-empty.png" alt="Difficulty icon">
+                Difficulty : medium/hard
+            </p>
+
+        </div>
+    </section>
+    <section class="tutorial-step" id="dev-env">
+        <div class="step-content">
+            <h2>Setting up your Development Environment</h2>
+            <p>Before we start writing code, let's ensure that
+                your development environment is properly configured.
+            </p>
+
+            <ul>
+                <p>On Windows : </p>
+                <li>
+                    Install Visual Studio: Download and install Visual Studio if you don't have it already.
+                    Make sure to include the "Desktop development with C++" workload during installation.
+                </li>
+                <li>
+                    Install GLFW: GLFW is a popular library for creating
+                    OpenGL windows. You can download precompiled binaries from the
+                    GLFW website (<a href="https://www.glfw.org/">https://www.glfw.org/</a>), or you can use a package manager
+                    like vcpkg (<a href="https://github.com/microsoft/vcpkg">https://github.com/microsoft/vcpkg</a>) to install it.
+                </li>
+            </ul>
+            <ul>
+                <p>On macOS : </p>
+                <li>
+                    Install Xcode: Xcode is the preferred development
+                    environment for macOS. You can download it from the Mac App Store.
+                </li>
+                <li>
+                    Install GLFW: You can install GLFW using a package manager like Homebrew.
+                    Open a Terminal and run:
+                    <br>
+                    <span class="code-example"> brew install glfw </span>
+                </li>
+            </ul>
+
+            <ul>
+                <p>On Linux (Debian/Ubuntu) : </p>
+                <li>
+                    Install a C/C++ Compiler: If you don't have one already,
+                    you can install the GNU Compiler Collection (GCC) with the following command:
+                    <br>
+                    <span class="code-example"> sudo apt-get install g++</span>
+                </li>
+                <li>
+                    Install GLFW: You can install GLFW using your package manager:
+                    <br>
+                    <span class="code-example"> sudo apt-get install libglfw3 libglfw3-dev </span>
+                </li>
+            </ul>
+
+        </div>
+    </section>
+    <section class="tutorial-step" id="Introduction">
+        <div class="step-content">
+            <h2>Step 0: Introduction to OpenGL</h2>
+            <p>OpenGL, also known as the Open Graphics Library,
+                is a versatile application programming interface
+                (API) that works across different programming languages
+                and platforms. It is primarily employed to communicate
+                with a graphics processing unit (GPU) in order to facilitate
+                accelerated rendering of both 2D and 3D vector graphics. In this tutorial,
+                you will learn how to create a simple OpenGL window and create triangle in it.
+            </p>
+        </div>
+    </section>
+    <section class="tutorial-step" id="step1">
+        <div class="step-content">
+            <h2>Step 1: Writing the OpenGL Window Code</h2>
+            <p>Now that your development environment is set up, let's create a simple OpenGL window.
+                Before creating the OpenGL window, we'll take a look at some useful functions.
+            </p>
+        </div>
+
+    </section>
+    <section class="tutorial-step" id="step1.1">
+        <div class="step-content">
+            <h2>Step 1.1: Basic function</h2>
+            <p>Before you can use most GLFW functions, the library must be initialized.
+                <br>
+                To do that we will use <span class="code-example">glfwInit()</span>. On successful initialization,
+                <span class="code-example">GLFW_TRUE</span> is returned. If an error occurred, <span class="code-example">GLFW_FALSE</span>
+                is returned. </p>
+            <p>
+                To create a window with a specified width, height and window title,
+                we will use <span class="code-example">glfwCreateWindow()</span>.
+            </p>
+            <p>
+                There are more function that we are going to use in this tutorial but those are the most basic ones.
+            </p>
+        </div>
+    </section>
+
+
+
+    <section class="tutorial-step" id="step1.2">
+        <div class="step-content">
+            <h2>Step 1.2: Main code</h2>
+            <p>Now that your development environment is set up and that you know some basic function,
+            let's create a simple OpenGL window.</p>
+
+            <p>We first have to include some libraries to use our function. Here the three one we are using : </p>
+            <span class="code-example">
+                #include &lt;stdio.h&gt;
+                <br>
+                #include &lt;stdlib.h&gt;
+                <br>
+                #include &lt;GLFW/glfw3.h&gt;
+            </span>
+            <p>The first two are taken from the standard C++ library. The last, on the other hand,
+                comes from GLFW.
+            </p>
+
+            <p>Let's code now the program :</p>
+            <span class="code-example">
+    //standard C++ libraries
+    <br>
+    #include &lt;stdio.h&gt;
+    <br>
+    #include &lt;stdlib.h&gt;
+    <br>
+    //GLFW libraries
+    <br>
+    #include &lt;GLFW/glfw3.h&gt;
+    <br> <br>
+    int main() { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;// Initialize GLFW <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;if (!glfwInit()) { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return -1; <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;} <br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;// Create a windowed mode window and its OpenGL context <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;GLFWwindow* window = glfwCreateWindow(800, 600, "OpenGL Window", NULL, NULL); <br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;// Check if window creation was successful <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;if (!window) { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;glfwTerminate; // Terminate GLFW before exiting the program <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return -1; <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;} <br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;// Make the window's context current <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;glfwMakeContextCurrent(window); <br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;// Loop until the user closes the window <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;while (!glfwWindowShouldClose(window)) { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Render here <br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Swap front and back buffers <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;glfwSwapBuffers(window); <br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Poll for and process events <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;glfwPollEvents(); <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;} <br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;// Terminate GLFW <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;glfwTerminate(); <br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;return 0; <br>
+    } <br>
+</span>
+            <ol><p>This code uses GLFW to create a window and initialize OpenGL.
+                Here's a breakdown of what it does:</p>
+
+                <li>Include the GLFW header file to access GLFW functions.</li>
+                <li>Initialize GLFW using <span class="code-example">glfwInit()</span>.</li>
+                <li>Create a window with a specified width, height, and window title using <span class="code-example">glfwCreateWindow()</span>.</li>
+                <li>Make the created window's context current with <span class="code-example">glfwMakeContextCurrent()</span>.</li>
+                <li>Enter a rendering loop where you can render your OpenGL graphics.</li>
+                <li>Swap the front and back buffers using <span class="code-example">glfwSwapBuffers()</span>.</li>
+                <li>Poll for and process events using <span class="code-example">glfwPollEvents()</span>.</li>
+                <li>Finally, terminate GLFW with <span class="code-example">glfwTerminate()</span>.</li>
+            </ol>
+        </div>
+    </section>
+
+    <section class="tutorial-step" id="step2">
+        <div class="step-content">
+            <h2>Step 2: Compiling and Running the Code</h2>
+            <p>To compile the code, you need to link against the GLFW library. The exact compilation process
+                depends on your platform and development environment. Here are some general guidelines:</p>
+            <ol>
+                <p>On Windows (using Visual Studio): </p>
+                <li>
+                    Create a new C++ project.
+                </li>
+                <li>
+                    Add the code to your project.
+                </li>
+                <li>
+                    Right-click the project, select "Properties," and navigate to "Configuration Properties" >
+                    "VC++ Directories." Add the include and library directories for GLFW.
+                </li>
+                <li>
+                    Under "Configuration Properties" >
+                    "VC++ Directories," add the GLFW library file (e.g., glfw3.lib) to "Library Directories."
+                </li>
+                <li>
+                    Under "Configuration Properties" > "VC++ Directories,"
+                    add "glfw3dll.lib" to "Additional Dependencies" in "Linker" > "Input."
+                </li>
+            </ol>
+
+            <ol>
+                <p>On macOS and Linux, you can compile the code from the terminal : </p>
+                <span class="code-example">g++ -o my_opengl_program my_opengl_program.cpp -lglfw -framework OpenGL</span>
+
+                <p>Replace<span class="code-example">my_opengl_program</span>with your desired output executable name and
+                    <span class="code-example">my_opengl_program.cpp</span> with the name of your source file.</p>
+
+                <p>After compiling, you can run your OpenGL program: <br>
+                    <span class="code-example">./my_opengl_program</span>
+                </p>
+
+                <p>This will open a window with the title "OpenGL Window." You can now start building
+                    your OpenGL graphics within the rendering loop.
+                    <br> <br>
+                    Remember that this is a basic example, and OpenGL
+                    development often involves more complexity, including shaders, rendering
+                    pipelines, and input handling.
+                    But this tutorial should give you a starting point for creating an OpenGL window.</p>
+
+            </ol>
+
+
+        </div>
+    </section>
+
+
+    <section class="tutorial-step" id="step3">
+        <div class="step-content">
+            <h2>Step 3: Creating a triangle</h2>
+            <p>Having a black window is cool but now, we are going to fill it a little bit.
+                This section is going to be quite long. We're going to create a triangle and use shaders.
+                But first, we need to understand how coordinates work in 3D.
+
+                <br>
+                I won't delve into the details right now, but it's essential for you to create a Vertex Array Object (VAO) and designate it as the current object : <br>
+            </p>
+                <span class="code-example">
+                    GLuint VertexArrayID;<br>
+                    glGenVertexArrays(1, &VertexArrayID); <br>
+                    glBindVertexArray(VertexArrayID);<br>
+                </span>
+            <p>Execute this set of instructions once your window has been created (after establishing the OpenGL context) and before making any other OpenGL calls.</p>
+        </div>
+    </section>
+
+    <section class="tutorial-step" id="step3.1">
+        <div class="step-content">
+            <h2>Step 3.1: Triangle coordinate</h2>
+            <p>A triangle is formed by connecting three points, often referred to as "vertices" in the
+                context of 3D graphics. Each vertex is characterized by three coordinates:
+                X, Y, and Z. To conceptualize these coordinates:
+                <ul>
+                    <li>X corresponds to the right direction.</li>
+                    <li>Y points upward.</li>
+                    <li>Z is situated behind (yes, behind, not in front).</li>
+                </ul>
+            </p>
+            <p>
+                An alternative and more tangible way to grasp these coordinates is by employing the right-hand rule:
+                <ul>
+                    <li>X aligns with your thumb.</li>
+                    <li>Y aligns with your index finger.</li>
+                    <li>Z aligns with your middle finger. If you extend your thumb to the right and
+                        your index finger upward, your middle finger will point behind your back.</li>
+                </ul>
+            </p>
+            <p>
+                The choice of having the Z-axis in this direction may seem peculiar.
+                In essence, it aligns with the "right-hand rule," providing practical
+                advantages over the course of a century. The only drawback is the counterintuitive
+                nature of the Z-axis. <br> <br>
+
+                In addition, it's worth noting that your hand's movement corresponds to
+                changes in X, Y, and Z. We'll revisit this aspect later. <br> <br>
+
+                Therefore, constructing a triangle requires specifying three 3D points. Here they are in code:
+                <br>
+            </p>
+            <span class="code-example">
+                    // An array containing three vectors representing three vertices <br>
+                    static const GLfloat g_vertex_buffer_data[] = { <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;-1.0f, -1.0f, 0.0f, <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;1.0f, -1.0f, 0.0f, <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;0.0f,  1.0f, 0.0f, <br>
+                    };
+            </span>
+            <br>
+            <p>
+                For instance, the coordinates of the first vertex are (-1, -1, 0).
+                Without any transformations, this vertex will be displayed at the position (-1, -1) on the screen.
+                What does this imply? The screen's origin is at the center, with the X-axis extending to the right and the Y-axis pointing upward.
+                This is particularly evident on a wide screen.
+            </p>
+
+            <p></p>
+
+        </div>
+    </section>
+    <section class="tutorial-step" id="step3.2">
+        <div class="step-content">
+            <h2>Step 3.2: Drawing a triangle</h2>
+            <p>The subsequent task involves supplying OpenGL with this triangle by establishing a buffer : </p> <br>
+
+            <span class="code-example">
+                    // Define our vertex buffer <br>
+                    GLuint vertexbuffer; <br>
+
+                    // Generate a buffer and assign its ID to 'vertexbuffer' <br>
+                    glGenBuffers(1, &vertexbuffer); <br>
+
+                    // Subsequent commands will reference our 'vertexbuffer' <br>
+                    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer); <br>
+
+                    // Feed the vertex data to OpenGL. <br>
+                    glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW); <br>
+                </span>
+            <br>
+            <p>Depending on your graphic card, you should be able to see a white triangle.</p>
+        </div>
+    </section>
+
+    <section class="tutorial-step" id="3.3.1">
+        <div class="step-content">
+            <h2>Step 3.3.1: Shaders compilation</h2>
+            <p>
+                In the fundamental setup of a graphics rendering pipeline,
+                two critical components are required: the "Vertex Shader" and the "Fragment Shader."
+                The Vertex Shader is responsible for processing each vertex in the 3D model, determining its final position on the screen.
+                On the other hand, the Fragment Shader works at the pixel level, calculating the final color for each pixel on the screen. <br><br>
+
+                In the context of antialiasing, a technique used to smooth jagged edges, particularly at lower resolutions,
+                there is a need for multiple samples for each pixel. With 4x antialiasing, four samples are taken for every pixel,
+                contributing to a more refined and visually pleasing result.<br><br>
+
+                To facilitate the execution of these shaders, the GLSL (GL Shader Language) is employed.
+                GLSL is a specialized language integrated into OpenGL for programming shaders.
+                It differs from conventional programming languages like C or Java in that GLSL requires compilation during the runtime of the program.
+                Consequently, every time the application is launched, all shaders undergo a compilation process.<br><br>
+
+                Typically, Vertex and Fragment Shaders are stored in separate files.
+                In this instance, the files are named : <br>
+                "SimpleFragmentShader.fragmentshader" <br> and <br> "SimpleVertexShader.vertexshader".<br>
+                The file extension is arbitrary; it could have been .txt or .glsl without affecting functionality.<br><br>
+
+                The process of loading shaders involves a specific code, as presented below.
+                While a deep understanding of this code may not be essential, it's a one-time operation in the program, and explanatory
+                comments within the code provide adequate guidance. Since this shader-loading function is likely to be reused in various tutorials,
+                it is conveniently placed in a separate file named "common/loadShader.cpp." It's crucial to note that, similar to buffers,
+                direct access to shaders is not granted; instead, only an identifier is accessible.
+                The actual implementation details are hidden and managed by the OpenGL driver for efficiency and security.<br><br></p>
+
+
+            <span class="code-example">
+    GLuint LoadShaders(const char * vertex_file_path, const char * fragment_file_path) { <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;// Create shaders <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;GLuint VertexShaderID = glCreateShader(GL_VERTEX_SHADER); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;GLuint FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER); <br>
+<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;// Read vertex shader code from file <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;std::string VertexShaderCode; <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;std::ifstream VertexShaderStream(vertex_file_path, std::ios::in); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;if (VertexShaderStream.is_open()) { <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;std::string Line = ""; <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (getline(VertexShaderStream, Line)) <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VertexShaderCode += "\n" + Line; <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VertexShaderStream.close(); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;} <br>
+<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;// Read fragment shader code from file <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;std::string FragmentShaderCode; <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;std::ifstream FragmentShaderStream(fragment_file_path, std::ios::in); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;if (FragmentShaderStream.is_open()) { <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;std::string Line = ""; <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (getline(FragmentShaderStream, Line)) <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FragmentShaderCode += "\n" + Line; <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FragmentShaderStream.close(); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;} <br>
+<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;GLint Result = GL_FALSE; <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;int InfoLogLength; <br>
+<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;// Compile the vertex shader <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;printf("Compiling shader: %s\n", vertex_file_path); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;char const * VertexSourcePointer = VertexShaderCode.c_str(); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;glShaderSource(VertexShaderID, 1, &VertexSourcePointer , NULL); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;glCompileShader(VertexShaderID); <br>
+<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;// Check the vertex shader <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;glGetShaderiv(VertexShaderID, GL_COMPILE_STATUS, &Result); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;glGetShaderiv(VertexShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;std::vector&lt;char&gt; VertexShaderErrorMessage(InfoLogLength); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;glGetShaderInfoLog(VertexShaderID, InfoLogLength, NULL, &VertexShaderErrorMessage[0]); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;fprintf(stdout, "%s\n", &VertexShaderErrorMessage[0]); <br>
+<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;// Compile the fragment shader <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;printf("Compiling shader: %s\n", fragment_file_path); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;char const * FragmentSourcePointer = FragmentShaderCode.c_str(); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;glShaderSource(FragmentShaderID, 1, &FragmentSourcePointer , NULL); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;glCompileShader(FragmentShaderID); <br>
+<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;// Check the fragment shader <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;glGetShaderiv(FragmentShaderID, GL_COMPILE_STATUS, &Result); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;glGetShaderiv(FragmentShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;std::vector&lt;char&gt; FragmentShaderErrorMessage(InfoLogLength); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;glGetShaderInfoLog(FragmentShaderID, InfoLogLength, NULL, &FragmentShaderErrorMessage[0]); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;fprintf(stdout, "%s\n", &FragmentShaderErrorMessage[0]); <br>
+<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;// Link the program <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;fprintf(stdout, "Linking program\n"); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;GLuint ProgramID = glCreateProgram(); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;glAttachShader(ProgramID, VertexShaderID); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;glAttachShader(ProgramID, FragmentShaderID); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;glLinkProgram(ProgramID); <br>
+<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;// Check the program <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;glGetProgramiv(ProgramID, GL_LINK_STATUS, &Result); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;glGetProgramiv(ProgramID, GL_INFO_LOG_LENGTH, &InfoLogLength); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;std::vector&lt;char&gt; ProgramErrorMessage(max(InfoLogLength, int(1))); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;glGetProgramInfoLog(ProgramID, InfoLogLength, NULL, &ProgramErrorMessage[0]); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;fprintf(stdout, "%s\n", &ProgramErrorMessage[0]); <br>
+<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;glDeleteShader(VertexShaderID); <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;glDeleteShader(FragmentShaderID); <br>
+<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;return ProgramID; <br>
+    }
+</span>
+
+        </div>
+    </section>
+    <section class="tutorial-step" id="3.3.2">
+        <div class="step-content">
+            <h2>Step 3.3.2: Shaders Vertex</h2>
+            <p>
+                Let's compose the vertex shader. <br>
+
+                The opening line informs the compiler of our intention to utilize the OpenGL 3 syntax.</p>
+            <span class="code-example">#version 330 core </span>
+            <p>The second line declares the input data:</p>
+            <span class="code-example">layout(location = 0) in vec3 vertexPosition_modelspace;</span>
+            <ul>
+                <p>Let's analyze this:</p>
+                <li>
+                    The term "vec3" represents a three-component vector in GLSL,
+                    akin to the <span class="code-example">glm::vec3</span> used in defining our C++ triangle.
+                    The essential point is that if we employ three components in C++,
+                    we similarly utilize three components in GLSL.
+                </li>
+                <li>
+                    The expression "layout(location = 0)" pertains to the buffer assigned to the <span class="code-example">vertexPosition_modelspace</span> attribute.
+                    Each vertex may possess various attributes, like position, one or more colors, texture coordinates, and more.
+                    Since OpenGL recognizes only a vec3 and lacks comprehension of attributes such as color, we must specify which buffer corresponds to which input.
+                    This is accomplished by aligning the "layout" with the first parameter in the <span class="code-example">glVertexAttribPointer</span> function.
+                    The specific value, here "0," is not critical; it could be "12" (as long as it doesn't exceed <span class="code-example">glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &v))</span>.
+                    The crucial aspect is maintaining consistency on both ends.
+                </li>
+                <li>
+                    The identifier "vertexPosition_modelspace" could have been chosen arbitrarily. It holds the vertex positions for every execution of the vertex shader.
+                </li>
+                <li>
+                    The "in" keyword signifies that these are input data. We'll soon encounter the "out" keyword.
+                </li>
+            </ul>
+            <p>The function responsible for each vertex is designated "main", mirroring the convention in C:</p>
+            <span class="code-example"> void main(){</span>
+            <p>The primary purpose of the main function is to assign the vertex position based on the contents of the buffer.
+                For instance, if we provide the coordinates (1, 1), one vertex of the triangle will be positioned in the top-right corner of the screen.
+                Further exploration of intricate calculations involving vertex positions is scheduled for the upcoming tutorial.</p>
+            <span class="code-example">
+                &nbsp; &nbsp; gl_Position.xyz = vertexPosition_modelspace; <br>
+                &nbsp; &nbsp; gl_Position.w = 1.0; <br>
+                }<br>
+            </span>
+            <p>The "gl_Position" serves as a language variable necessitating assignment. While other components are discretionary, we will delve into them in the fourth tutorial.</p>
+        </div>
+    </section>
+    <section class="tutorial-step" id="3.3.3">
+        <div class="step-content">
+            <h2>Step 3.3.3: Shaders fragment</h2>
+            <p>For our initial fragment shader, let's keep it simple: we're setting the color of each fragment to red.
+                (Remember, with 4x antialiasing, there are four fragments within a pixel.)</p>
+            <span class="code-example">
+                #version 330 core <br>
+                out vec3 color; <br>
+                void main(){ <br>
+                &nbsp;&nbsp;color = vec3(1,0,0); <br>
+                }<br>
+            </span>
+            <p> So, in this context, "vec3(1, 0, 0)" indicates the color red. This interpretation aligns with computer screens where colors are represented as a trio of values for
+                red, green, and blue, respectively. In this case, (1, 0, 0) signifies full intensity red,
+                with no green or blue components.</p>
+        </div>
+    </section>
+    <section class="tutorial-step" id="3.3.4">
+        <div class="step-content">
+            <h2>Step 3.3.4: Putting all together</h2>
+            <p>Prior to entering the main loop, the function LoadShaders is called:</p>
+            <span class="code-example">
+                // Generate and compile our GLSL program using the specified shaders <br>
+                GLuint programID = LoadShaders("SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader");<br>
+            </span>
+            <p>At the outset of the primary loop, the screen is cleared,
+                resulting in a dark blue background due to the preceding call to glClearColor(0.0f, 0.0f, 0.4f, 0.0f).</p>
+            <span class="code-example">
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            </span>
+            <p>Subsequently, we instruct OpenGL to utilize the previously defined shaders:</p>
+            <span class="code-example">
+                // Activate our shader <br>
+                glUseProgram(programID); <br>
+                // Render the triangle... <br>
+            </span>
+            <p>And there you have it—a red triangle!</p>
+        </div>
+    </section>
+    <section class="tutorial-step" id="acknowledgements">
+        <div class="step-content">
+            <h2>Acknowledgements and Credits</h2>
+            <p>We would like to express our gratitude to the contributors and resources that made this tutorial possible.</p>
+            <ul>
+                <li><strong>OpenGL Community:</strong> Thanks to the OpenGL community for providing a powerful and versatile graphics rendering API.</li>
+                <li><strong>GLFW:</strong> A big thank you to the GLFW team for the development of this library that makes creating OpenGL windows easier.</li>
+                <li><strong>Other Resources:</strong> Online forums, tutorials, and documents were consulted to improve the quality and accuracy of this guide.</li>
+            </ul>
+            <p>Thanks to everyone who contributed directly or indirectly to the creation of this tutorial. Your expertise and knowledge sharing are greatly appreciated.</p>
+        </div>
+    </section>
+
+    <section class="tutorial-step" id="contact">
+        <div class="step-content">
+            <h2>Questions? Contact me !</h2>
+            <form action="#" method="post" class="contact-form">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="4" required></textarea>
+
+                <button type="submit">Envoyer</button>
+            </form>
+        </div>
+    </section>
+
+</main>
+
+<button id="scrollTopBtn">&#9650;</button>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var scrollTopBtn = document.getElementById("scrollTopBtn");
+
+        window.addEventListener("scroll", function() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                scrollTopBtn.style.display = "block";
+            } else {
+                scrollTopBtn.style.display = "none";
+            }
+        });
+
+        scrollTopBtn.addEventListener("click", function() {
+            scrollToTop();
+        });
+
+        function scrollToTop() {
+            var currentPosition = document.documentElement.scrollTop || document.body.scrollTop;
+
+            var distanceToTop = currentPosition;
+
+            var duration = 500;
+
+            var startTime = null;
+
+            function animation(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                var timeElapsed = currentTime - startTime;
+                var progress = timeElapsed / duration;
+
+                progress = Math.min(progress, 1);
+                var easedProgress = easeInOutCubic(progress);
+
+                var newPosition = currentPosition - distanceToTop * easedProgress;
+
+                document.documentElement.scrollTop = newPosition;
+                document.body.scrollTop = newPosition;
+
+                if (progress < 1) {
+                    requestAnimationFrame(animation);
+                }
+            }
+
+            requestAnimationFrame(animation);
+        }
+
+        function easeInOutCubic(t) {
+            return t < 0.5 ? 4 * t ** 3 : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        }
+    });
+
+
+</script>
+
+</body>
+</html>

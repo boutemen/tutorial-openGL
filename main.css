@@ -1,0 +1,161 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 8px 0 0;
+    scroll-behavior: smooth;
+    position: relative;
+}
+
+
+#scrollTopBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none;
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 20px;
+    transition: background-color 0.2s;
+}
+
+#scrollTopBtn:hover {
+    background-color: #555;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+
+}
+
+h1 {
+    margin: 0;
+}
+
+main {
+    max-width: 800px;
+    margin: 80px auto 0;
+    padding: 20px;
+}
+
+.tutorial-step {
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    margin-top: 5%;
+}
+
+.code-example {
+    font-family: 'Courier New', monospace;
+    background-color: #f8f8f8;
+    padding: 2px;
+    border: 1px solid #ddd;
+    text-align:left;
+}
+
+.step-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.step-content ul {
+    width: 90%;
+}
+.step-content ol{
+    width: 90%;
+}
+.step-content li {
+    font-size: 1.1em;
+    margin: 10px 0;
+    text-align: justify;
+    line-height: 1.5em;
+}
+
+p {
+    font-size: 1.2em;
+    margin: 10px 0;
+    text-align: justify;
+    width: 80%;
+    line-height: 1.5em;
+}
+
+img {
+    max-width: 100%;
+}
+
+/* ... Votre code CSS précédent ... */
+
+.sidebar {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 85%;
+    width: 200px;
+    margin-top: 5%;
+    margin-left: 8px;
+}
+
+.nav-menu {
+    list-style-type: none;
+    padding: 0;
+}
+
+.nav-menu li {
+    margin-bottom: 10px;
+}
+
+
+.nav-menu a {
+    color: #fff; /* Couleur du texte par défaut */
+    background-color: transparent; /* Arrière-plan transparent par défaut */
+    transition: color 0.2s, background-color 0.2s; /* Transition douce */
+}
+
+.nav-menu a:hover {
+    color: blue; /* Couleur du texte au survol */
+    background-color: transparent; /* Arrière-plan au survol (optionnel) */
+}
+
+.contact-form {
+    width: 80%;
+    margin: 20px auto;
+}
+
+.contact-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.contact-form button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+.contact-form button:hover {
+    background-color: #555;
+}
+
