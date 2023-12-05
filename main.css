@@ -33,6 +33,7 @@ header {
     position: fixed;
     width: 100%;
     top: 0;
+    z-index: 1000;
 
 }
 
@@ -45,7 +46,19 @@ main {
     margin: 80px auto 0;
     padding: 20px;
 }
+@media only screen and (max-width: 768px) {
+    header {
+        padding: 15px;
+    }
 
+    main {
+        padding: 10px;
+    }
+
+    .sidebar {
+        display: none; /* Hide the sidebar on small screens */
+    }
+}
 .tutorial-step {
     border: 1px solid #ccc;
     margin-bottom: 20px;
